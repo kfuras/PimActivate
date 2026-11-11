@@ -38,6 +38,7 @@ The module loads automatically the first time you run `pim`.
 
 ```powershell
 pim prod                                  # list every eligible role with "prod" in the resource name, then pick
+                                          # (defaults: 8 hours, justification 'Ops work')
 pim prod -Hours 1 -Justification 'Ticket 1234'
 pim rg-web -Select 1,3                    # no prompt
 pim -Select a -WhatIf                     # show what would be activated
@@ -47,11 +48,13 @@ pim-login -Context c1                     # sign in for an authentication contex
 | Parameter | Default | Description |
 |---|---|---|
 | `Name` | all | Lists every eligible role whose resource name contains this text (not case-sensitive, wildcards allowed) |
-| `Hours` | `8` | Activation duration (1-24, limited by the role's PIM policy) |
+| `Hours` | `8` | Activation duration in hours (1-24, limited by the role's PIM policy) |
 | `Justification` | `Ops work` | Justification recorded on the activation |
 | `Select` | | `1,3,5-7` or `a` for all; skips the prompt |
 
 See `Get-Help pim -Full` for details.
+
+Without `-Hours` and `-Justification`, roles are activated for **8 hours** with the justification **`Ops work`**.
 
 ## License
 

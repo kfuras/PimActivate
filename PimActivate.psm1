@@ -133,10 +133,10 @@ function Enable-PimRole {
     Wildcards are allowed. Default: all eligible roles.
 
     .PARAMETER Hours
-    Activation duration in hours. Values above the role's PIM policy maximum fail.
+    Activation duration in hours (1-24). Default: 8. Values above the role's PIM policy maximum fail.
 
     .PARAMETER Justification
-    Justification recorded on the activation.
+    Justification recorded on the activation. Default: 'Ops work'.
 
     .PARAMETER Select
     Pick roles without the prompt, e.g. '1,3,5-7' or 'a' for all.
@@ -144,7 +144,7 @@ function Enable-PimRole {
     .EXAMPLE
     pim prod
     Lists every eligible role with "prod" anywhere in the resource name, e.g. rg-prod-web
-    and sub-prod, and prompts for which to activate.
+    and sub-prod, and prompts for which to activate. Uses the defaults: 8 hours, justification 'Ops work'.
 
     .EXAMPLE
     pim prod -Hours 1 -Justification "Ticket 1234"
