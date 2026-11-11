@@ -1,6 +1,7 @@
 # PimActivate
 
-Activate eligible Azure PIM (Privileged Identity Management) role assignments from the command line, picked by resource name.
+Activate eligible Azure PIM (Privileged Identity Management) role assignments
+from the command line, picked by resource name.
 
 ```text
 PS> pim prod
@@ -15,10 +16,14 @@ Status      Resource     ResourceGroup Role
 Provisioned rg-prod-web  rg-prod-web   Contributor
 ```
 
-- `pim <text>` lists **every** PIM role you are eligible for whose resource name contains `<text>` (not case-sensitive), across all subscriptions. The resource can be a subscription, resource group or single resource. Nothing is activated until you pick from the list.
+- `pim <text>` lists **every** PIM role you are eligible for whose resource
+  name contains `<text>` (not case-sensitive), across all subscriptions. The
+  resource can be a subscription, resource group or single resource. Nothing
+  is activated until you pick from the list.
 - `pim` with no text lists all your eligible roles.
 - Signs in with the browser when your Azure sign-in is missing or expired.
-- Handles Conditional Access authentication contexts (e.g. `c1`): signs you in again with MFA and retries.
+- Handles Conditional Access authentication contexts (e.g. `c1`): signs you in
+  again with MFA and retries.
 
 ## Requirements
 
@@ -29,7 +34,8 @@ Provisioned rg-prod-web  rg-prod-web   Contributor
 
 ```powershell
 Install-Module Az.Accounts -Scope CurrentUser
-git clone https://github.com/kfuras/PimActivate "$HOME\Documents\PowerShell\Modules\PimActivate"
+$modules = "$HOME\Documents\PowerShell\Modules"
+git clone https://github.com/kfuras/PimActivate "$modules\PimActivate"
 ```
 
 The module loads automatically the first time you run `pim`.
@@ -37,24 +43,33 @@ The module loads automatically the first time you run `pim`.
 ## Usage
 
 ```powershell
-pim prod                                  # list every eligible role with "prod" in the resource name, then pick
-                                          # (defaults: 8 hours, justification 'Ops work')
+# List every eligible role with "prod" in the resource name, then pick
+pim prod
+
+# Custom duration and justification
 pim prod -Hours 1 -Justification 'Ticket 1234'
-pim rg-web -Select 1,3                    # no prompt
-pim -Select a -WhatIf                     # show what would be activated
-pim-login -Context c1                     # sign in for an authentication context up front
+
+# Pick without the prompt
+pim rg-web -Select 1,3
+
+# Show what would be activated
+pim -Select a -WhatIf
+
+# Sign in for an authentication context up front
+pim-login -Context c1
 ```
 
-| Parameter | Default | Description |
-|---|---|---|
-| `Name` | all | Lists every eligible role whose resource name contains this text (not case-sensitive, wildcards allowed) |
-| `Hours` | `8` | Activation duration in hours (1-24, limited by the role's PIM policy) |
-| `Justification` | `Ops work` | Justification recorded on the activation |
-| `Select` | | `1,3,5-7` or `a` for all; skips the prompt |
+Without `-Hours` and `-Justification`, roles are activated for **8 hours**
+with the justification **`Ops work`**.
+
+| Parameter       | Default    | Description                                  |
+| --------------- | ---------- | -------------------------------------------- |
+| `Name`          | all        | Text to match in resource name; wildcards OK |
+| `Hours`         | `8`        | 1-24, capped by the role's PIM policy        |
+| `Justification` | `Ops work` | Recorded on the activation                   |
+| `Select`        | none       | `1,3,5-7` or `a` (all); skips the prompt     |
 
 See `Get-Help pim -Full` for details.
-
-Without `-Hours` and `-Justification`, roles are activated for **8 hours** with the justification **`Ops work`**.
 
 ## License
 
