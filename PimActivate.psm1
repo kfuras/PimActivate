@@ -121,13 +121,16 @@ function Enable-PimRole {
     Activates eligible Azure PIM roles, picked from a numbered list by resource name.
 
     .DESCRIPTION
-    Lists your eligible Azure resource role assignments whose resource name contains -Name,
-    lets you pick which to activate, and activates them. If a role requires a Conditional
+    Lists every Azure PIM role you are eligible for whose resource name contains -Name
+    (not case-sensitive), across all subscriptions. The resource can be a subscription,
+    resource group or single resource. Nothing is activated until you pick from the list.
+    Without -Name, all your eligible roles are listed. If a role requires a Conditional
     Access authentication context (e.g. c1), it signs you in again with MFA and retries.
     Requires the Az.Accounts module. Signs in automatically if the Azure sign-in is missing or expired.
 
     .PARAMETER Name
-    Text to match anywhere in the resource name. Wildcards are allowed. Default: all.
+    Lists every eligible role whose resource name contains this text (not case-sensitive).
+    Wildcards are allowed. Default: all eligible roles.
 
     .PARAMETER Hours
     Activation duration in hours. Values above the role's PIM policy maximum fail.
@@ -140,7 +143,8 @@ function Enable-PimRole {
 
     .EXAMPLE
     pim prod
-    Lists eligible roles with "prod" in the resource name and prompts for which to activate.
+    Lists every eligible role with "prod" anywhere in the resource name, e.g. rg-prod-web
+    and sub-prod, and prompts for which to activate.
 
     .EXAMPLE
     pim prod -Hours 1 -Justification "Ticket 1234"

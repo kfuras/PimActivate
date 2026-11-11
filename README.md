@@ -15,7 +15,8 @@ Status      Resource     ResourceGroup Role
 Provisioned rg-prod-web  rg-prod-web   Contributor
 ```
 
-- Lists your eligible Azure resource roles across all subscriptions you can see, filtered by resource name.
+- `pim <text>` lists **every** PIM role you are eligible for whose resource name contains `<text>` (not case-sensitive), across all subscriptions. The resource can be a subscription, resource group or single resource. Nothing is activated until you pick from the list.
+- `pim` with no text lists all your eligible roles.
 - Signs in with the browser when your Azure sign-in is missing or expired.
 - Handles Conditional Access authentication contexts (e.g. `c1`): signs you in again with MFA and retries.
 
@@ -36,7 +37,7 @@ The module loads automatically the first time you run `pim`.
 ## Usage
 
 ```powershell
-pim prod                                  # pick from roles with "prod" in the resource name
+pim prod                                  # list every eligible role with "prod" in the resource name, then pick
 pim prod -Hours 1 -Justification 'Ticket 1234'
 pim rg-web -Select 1,3                    # no prompt
 pim -Select a -WhatIf                     # show what would be activated
@@ -45,7 +46,7 @@ pim-login -Context c1                     # sign in for an authentication contex
 
 | Parameter | Default | Description |
 |---|---|---|
-| `Name` | `*` | Text to match anywhere in the resource name |
+| `Name` | all | Lists every eligible role whose resource name contains this text (not case-sensitive, wildcards allowed) |
 | `Hours` | `8` | Activation duration (1-24, limited by the role's PIM policy) |
 | `Justification` | `Ops work` | Justification recorded on the activation |
 | `Select` | | `1,3,5-7` or `a` for all; skips the prompt |
