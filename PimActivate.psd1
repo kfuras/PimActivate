@@ -1,6 +1,6 @@
 ﻿@{
     RootModule        = 'PimActivate.psm1'
-    ModuleVersion     = '0.1.0'
+    ModuleVersion     = '0.1.1'
     GUID              = '3aed46cb-d2e2-484a-bc17-4b4e5306643b'
     Author            = 'Kjetil Furås'
     Description       = 'Activate eligible Azure PIM roles by resource name.'

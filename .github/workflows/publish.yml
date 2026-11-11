@@ -1,0 +1,38 @@
+name: Publish to PowerShell Gallery
+
+on:
+  push:
+    tags: ['v*']
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check tag matches manifest version
+        shell: pwsh
+        run: |
+          $version = (Import-PowerShellDataFile ./PimActivate.psd1).ModuleVersion
+          if ("v$version" -ne $env:GITHUB_REF_NAME) {
+              throw "Tag $env:GITHUB_REF_NAME does not match ModuleVersion $version"
+          }
+
+      - name: Lint
+        shell: pwsh
+        run: |
+          Install-PSResource PSScriptAnalyzer -TrustRepository -Quiet
+          $errors = Invoke-ScriptAnalyzer -Path . -Recurse -Severity Error
+          $errors | Format-Table -AutoSize
+          if ($errors) { throw 'PSScriptAnalyzer found errors' }
+
+      - name: Publish
+        shell: pwsh
+        env:
+          PSGALLERY_API_KEY: ${{ secrets.PSGALLERY_API_KEY }}
+        run: |
+          # Stage only the module files so .git and .github are not packaged
+          $stage = New-Item -ItemType Directory -Path "$env:RUNNER_TEMP/PimActivate"
+          Copy-Item PimActivate.psd1, PimActivate.psm1, LICENSE, README.md -Destination $stage
+          # Az.Accounts is not installed on the runner; the dependency is still recorded
+          Publish-PSResource -Path $stage -Repository PSGallery -ApiKey $env:PSGALLERY_API_KEY -SkipDependenciesCheck

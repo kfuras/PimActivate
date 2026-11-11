@@ -32,6 +32,15 @@ Provisioned rg-prod-web  rg-prod-web   Contributor
 
 ## Install
 
+From the [PowerShell Gallery](https://www.powershellgallery.com/packages/PimActivate)
+(installs Az.Accounts too):
+
+```powershell
+Install-Module PimActivate -Scope CurrentUser
+```
+
+Or from source:
+
 ```powershell
 Install-Module Az.Accounts -Scope CurrentUser
 $modules = "$HOME\Documents\PowerShell\Modules"
