@@ -11,4 +11,11 @@
     AliasesToExport   = @('pim', 'pim-login')
     CmdletsToExport   = @()
     VariablesToExport = @()
+    PrivateData       = @{
+        PSData = @{
+            Tags       = @('Azure', 'PIM', 'PrivilegedIdentityManagement', 'RBAC')
+            ProjectUri = 'https://github.com/kfuras/PimActivate'
+            LicenseUri = 'https://github.com/kfuras/PimActivate/blob/main/LICENSE'
+        }
+    }
 }
