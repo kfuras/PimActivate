@@ -16,7 +16,7 @@
         PSData = @{
             Tags         = @(
                 'Azure', 'PIM', 'PrivilegedIdentityManagement', 'RBAC', 'AzureRBAC',
-                'JIT', 'JustInTime', 'RoleActivation', 'AuthenticationContext',
+                'JustInTime', 'RoleActivation', 'AuthenticationContext',
                 'ConditionalAccess', 'MFA', 'Identity', 'Security'
             )
             ProjectUri   = 'https://github.com/kfuras/PimActivate'
